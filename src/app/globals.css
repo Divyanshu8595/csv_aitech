@@ -1,26 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
 @import "tailwindcss";
 
+/* ─── Premium Design System Tokens ─────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --bg-obsidian: #030708;
+  --bg-card: rgba(8, 14, 12, 0.45);
+  --bg-card-hover: rgba(14, 25, 22, 0.6);
+  --border-fine: rgba(255, 255, 255, 0.04);
+  --border-glow: rgba(16, 185, 129, 0.08);
+  
+  --emerald-main: #10B981;
+  --emerald-hover: #059669;
+  --emerald-glow-rgb: 16, 185, 129;
+  
+  --indigo-main: #6366F1;
+  --indigo-glow-rgb: 99, 102, 241;
+  
+  --amber-main: #FBBF24;
+  --amber-glow-rgb: 251, 191, 36;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --rose-main: #F43F5E;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-obsidian);
+  color: #f3f4f6;
+  min-height: 100vh;
+  
+  /* Abstract grid layout + ambient glow circles */
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    radial-gradient(ellipse 60% 40% at 50% -10%, rgba(16, 185, 129, 0.08), transparent),
+    radial-gradient(ellipse 40% 30% at 90% 80%, rgba(99, 102, 241, 0.04), transparent),
+    radial-gradient(circle 350px at 10% 50%, rgba(16, 185, 129, 0.02), transparent);
+  background-size: 32px 32px, 32px 32px, 100% 100%, 100% 100%, 100% 100%;
+  background-attachment: fixed;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Premium Scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(3, 7, 8, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid var(--bg-obsidian);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.3);
+}
+
+/* ─── Human Designer Cards (Tactile Glass) ─────────────────────────────────── */
+.premium-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-fine);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 
+    0 4px 30px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.02);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.premium-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(16, 185, 129, 0.15);
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(16, 185, 129, 0.03),
+    inset 0 1px 1px rgba(255, 255, 255, 0.04);
+}
+
+/* ─── Dashboard Stats Cards ────────────────────────────────────────────────── */
+.stat-card {
+  background: rgba(255, 255, 255, 0.015);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: transparent;
+  transition: all 0.25s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.stat-card.imported:hover::before {
+  background: linear-gradient(90deg, transparent, var(--emerald-main), transparent);
+}
+.stat-card.skipped:hover::before {
+  background: linear-gradient(90deg, transparent, var(--amber-main), transparent);
+}
+
+/* ─── Glowing Elements ─────────────────────────────────────────────────────── */
+.neon-glow-emerald {
+  box-shadow: 0 0 25px rgba(var(--emerald-glow-rgb), 0.15);
+}
+
+.neon-glow-indigo {
+  box-shadow: 0 0 25px rgba(var(--indigo-glow-rgb), 0.15);
+}
+
+/* ─── Designer Table Styles ────────────────────────────────────────────────── */
+.premium-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.premium-table th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(3, 7, 8, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px 16px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+}
+
+.premium-table td {
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  color: #d1d5db;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+  transition: all 0.15s ease;
+}
+
+.premium-table tbody tr {
+  transition: all 0.15s ease;
+}
+
+.premium-table tbody tr:hover td {
+  background: rgba(16, 185, 129, 0.03);
+  color: #ffffff;
+}
+
+.mono-cell {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem !important;
+}
+
+/* ─── High-Fidelity Buttons ────────────────────────────────────────────────── */
+.btn-primary {
+  position: relative;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: #ffffff;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 10px 20px;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 
+    0 4px 15px rgba(16, 185, 129, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 
+    0 8px 25px rgba(16, 185, 129, 0.5),
+    0 0 10px rgba(16, 185, 129, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary:hover::after {
+  transform: translateX(100%);
+}
+
+.btn-primary:active {
+  transform: translateY(0.5px);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #d1d5db;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 10px 20px;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+/* ─── Custom Animations ─────────────────────────────────────────────────────── */
+@keyframes grid-pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes terminal-cursor {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.cursor-blink::after {
+  content: '▋';
+  color: var(--emerald-main);
+  animation: terminal-cursor 1s step-start infinite;
+}
+
+@keyframes progress-light {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.progress-glow-light::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: progress-light 1.8s ease-in-out infinite;
 }
