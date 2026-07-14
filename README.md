@@ -195,8 +195,4 @@ Any parsed row that does not contain **either** a phone number **nor** an email 
 | `PORT` | Backend | Express server port listener (default: `3001`). |
 | `NEXT_PUBLIC_API_URL` | Frontend | Target backend REST API URL (default: `http://localhost:3001`). |
 
----
 
-## 📄 License
-
-Distributed under the MIT License.
